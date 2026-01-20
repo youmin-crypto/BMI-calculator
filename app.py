@@ -2,35 +2,36 @@ import streamlit as st
 import hashlib
 import time
 
-st.title("🔐 SHA-256 Hash Cracker (Simulation)")
+st.title("⛏️ Crypto Mining Simulator")
+st.write("Bitcoin Mining လုပ်တဲ့ သဘောတရားကို စမ်းသပ်ကြည့်ပါ။")
 
-# 1. Target နံပါတ်ကို သတ်မှတ်ပြီး Hash ပြောင်းထားမယ်
-target_number = "100000000"
-target_hash = hashlib.sha256(target_number.encode()).hexdigest()
+# Difficulty Level သတ်မှတ်ခြင်း (သုည ဘယ်နှစ်လုံး ပါရမလဲ)
+difficulty = st.slider("Difficulty (ရှေ့ကပါရမယ့် သုညအရေအတွက်)", min_value=1, max_value=5, value=3)
 
-st.info(f"ရှာဖွေမည့် Target Hash: \n\n **{target_hash}**")
-
-if st.button("Hash ကို စတင်ရှာဖွေပါ"):
-    start_time = time.time()
+if st.button("Mining စတင်ပါ"):
+    prefix = '0' * difficulty
     found = False
-    attempt = 0
+    nonce = 0
+    start_time = time.time()
     
-    # 0 ကနေ စတင်ပြီး တစ်ခုချင်းစီ Hash လုပ်ကာ တိုက်စစ်ခြင်း
-    # စက်အမြန်နှုန်းအတွက် loop ပတ်ရုံပဲလုပ်ပါမယ် (st.write မပါဘဲ)
+    st.info(f"Target: ရှေ့မှာ **'{prefix}'** နဲ့ စတဲ့ Hash ကို ရှာနေပါပြီ...")
+    
+    # Mining Loop
     while not found:
-        # လက်ရှိ နံပါတ်ကို Hash ပြောင်းသည်
-        current_hash = hashlib.sha256(str(attempt).encode()).hexdigest()
+        # Nonce (နံပါတ်တစ်ခု) ကို စာသားနဲ့တွဲပြီး Hash လုပ်သည်
+        text = f"block_data_123_{nonce}"
+        current_hash = hashlib.sha256(text.encode()).hexdigest()
         
-        # တူ၊ မတူ စစ်ဆေးသည်
-        if current_hash == target_hash:
+        # သတ်မှတ်ထားတဲ့ သုည အရေအတွက်နဲ့ စသလား စစ်ဆေးသည်
+        if current_hash.startswith(prefix):
             found = True
         else:
-            attempt += 1
+            nonce += 1
             
     end_time = time.time()
     duration = end_time - start_time
 
-    st.success(f"✅ ရှာတွေ့သွားပါပြီ!")
-    st.write(f"တွေ့ရှိခဲ့သည့် ကိန်းဂဏန်း: **{attempt}**")
+    st.success(f"🎊 Block ကို Mine လုပ်နိုင်ခဲ့ပါပြီ!")
+    st.code(f"Hash: {current_hash}")
+    st.write(f"ရှာဖွေခဲ့ရသော အကြိမ်ရေ (Nonce): **{nonce:,}**")
     st.metric("ကြာမြင့်ချိန်", f"{duration:.4f} စက္ကန့်")
-    st.metric("စမ်းသပ်ခဲ့သည့် အကြိမ်အရေအတွက်", f"{attempt:,}")
