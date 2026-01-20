@@ -5,7 +5,7 @@ import time
 st.title("🔐 SHA-256 Hash Cracker (Simulation)")
 
 # 1. Target နံပါတ်ကို သတ်မှတ်ပြီး Hash ပြောင်းထားမယ်
-target_number = "1000000"
+target_number = "100000000"
 target_hash = hashlib.sha256(target_number.encode()).hexdigest()
 
 st.info(f"ရှာဖွေမည့် Target Hash: \n\n **{target_hash}**")
