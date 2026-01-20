@@ -14,9 +14,9 @@ if st.button("ရေတွက်မှုကို စတင်ပါ"):
     # မှတ်ချက် - ၁ သန်းအထိ တစ်ခုချင်းစီ screen ပေါ်တင်ပြရင် browser လေးသွားနိုင်လို့ 
     # အဆင့်လိုက်ပြပေးပါမယ်
     count = 0
-    limit = 100000000
+    limit = 10000000000
     
-    for i in range(0, limit + 1, 100000): # ၁ သောင်းစီ ခုန်ပြီး progress ပြပါမယ်
+    for i in range(0, limit + 1, 1000000): # ၁ သောင်းစီ ခုန်ပြီး progress ပြပါမယ်
         count = i
         percent_complete = i / limit
         progress_bar.progress(percent_complete)
